@@ -74,20 +74,16 @@ public class Hero : MonoBehaviour {
         // Use the fireDelegate to fire Weapons
         // First, make sure the button is pressed: Axis("Jump")
         // Then ensure that fireDelegate isn't null to avoid an error
+
         if (Input.GetAxis("Jump") == 1 && fireDelegate != null)
         {
             fireDelegate();
+            //allows continuous fire when spacebar held down
         }
 
 
     }
-
-
-
-
-    //TODO: replace or comment out later
-    
-
+   
 
     private void OnTriggerEnter(Collider other)
     {
@@ -120,7 +116,7 @@ public class Hero : MonoBehaviour {
 
 
 
-    // you do not need to adjust Absorb PowerUp 
+    // you do not need to adjust Absorb PowerUp:  Nick: altered this code for fun, wanted weapons to not clear, and first blaster to never change.
     public void AbsorbPowerUp(GameObject go)
     {
         PowerUp pu = go.GetComponent<PowerUp>();
@@ -134,10 +130,15 @@ public class Hero : MonoBehaviour {
                 if(pu.type == weapons[0].type)
                 {
                     Weapon w = GetEmptyWeaponSlot();
-                    if(w != null)
+                    if(w != null)// there is an empty slot
                     {
                         // Set it to pu.type
                         w.SetType(pu.type);
+                    }
+                    else // if there are no more empty weapon slots
+                    //each different type pickup replaces first slot with diff type in it
+                    {
+                        //TODO: Add code here that would replace the current weapon slot with the new powerup if it is a different type once no more empty slots 
                     }
                 }
                 else
@@ -160,6 +161,11 @@ public class Hero : MonoBehaviour {
         set
         {
             _shieldLevel = Mathf.Min(value, 4);
+            //If the shield is 0, make it disappear from ship
+            if (value < 1 && value > -1)
+            {
+                
+            }
             // If the shield is going to be set to less than zero
             if (value < 0)
             {
@@ -188,5 +194,5 @@ public class Hero : MonoBehaviour {
         {
             w.SetType(WeaponType.none);
         }
-    }
+    } 
 }
